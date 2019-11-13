@@ -185,6 +185,22 @@ func rehearseMain() int {
 		metrics.RecordChangedCiopConfigs(changedCiopConfigData)
 	}
 
+	refs, chains, workflows, err := load.Registry(filepath.Join(o.releaseRepoPath, config.RegistryPath), false)
+	if err != nil {
+		logger.WithError(err).Error("could not load step registry")
+		return gracefulExit(o.noFail, misconfigurationOutput)
+	}
+	changedRegistrySteps, err := config.GetChangedRegistrySteps(o.releaseRepoPath, jobSpec.Refs.BaseSHA, refs, chains, workflows)
+	if err != nil {
+		logger.WithError(err).Error("could not get step registry differences")
+		return gracefulExit(o.noFail, misconfigurationOutput)
+	}
+	if len(changedRegistrySteps) != 0 {
+		logger.WithField("registry", changedRegistrySteps).Info("registry steps changed")
+		// TODO: add metrics for changed registry steps
+		//metrics.RecordChangedRegistrySteps(changedRegistrySteps)
+	}
+
 	changedTemplates, err := config.GetChangedTemplates(o.releaseRepoPath, jobSpec.Refs.BaseSHA)
 	if err != nil {
 		logger.WithError(err).Error("could not get template differences")
@@ -269,13 +285,11 @@ func rehearseMain() int {
 	metrics.RecordPresubmitsOpportunity(toRehearseClusterProfiles, "cluster-profile-change")
 	toRehearse.AddAll(toRehearseClusterProfiles)
 
-	refs, chains, workflows, err := load.Registry(filepath.Join(o.releaseRepoPath, config.RegistryPath), false)
-	if err != nil {
-		logger.WithError(err).Error("could not load step registry")
-		return gracefulExit(o.noFail, misconfigurationOutput)
-	}
 	resolver := registry.NewResolver(refs, chains, workflows)
 	jobConfigurer := rehearse.NewJobConfigurer(prConfig.CiOperator, resolver, prNumber, loggers, o.allowVolumes, changedTemplates, changedClusterProfiles, jobSpec.Refs)
+	presubmitsWithChangedRegistry := rehearse.AddRandomJobsForChangedRegistry(changedRegistrySteps, prConfig.Prow.JobConfig.PresubmitsStatic, filepath.Join(o.releaseRepoPath, diffs.CIOperatorConfigInRepoPath), loggers)
+	metrics.RecordPresubmitsOpportunity(presubmitsWithChangedRegistry, "registry-change")
+	toRehearse.AddAll(presubmitsWithChangedRegistry)
 
 	presubmitsToRehearse := jobConfigurer.ConfigurePresubmitRehearsals(toRehearse)
 	periodicsToRehearse := jobConfigurer.ConfigurePeriodicRehearsals(changedPeriodics)
