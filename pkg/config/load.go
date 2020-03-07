@@ -82,7 +82,7 @@ func (i *Info) ConfigMapName() string {
 
 // IsCiopConfigCM returns true if a given name is a valid ci-operator config ConfigMap
 func IsCiopConfigCM(name string) bool {
-	return regexp.MustCompile(`^ci-operator-.+-configs$`).MatchString(name)
+	return regexp.MustCompile(`^ci-operator(-.+)?-configs$`).MatchString(name)
 }
 
 // We use the directory/file naming convention to encode useful information

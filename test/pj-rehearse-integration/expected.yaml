@@ -158,7 +158,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 1e57006d-b7c8-11e9-a628-54e1ad07d68a
+    name: 94a05f74-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -258,19 +258,19 @@
         name: job-definition
     refs:
       base_ref: master
-      base_sha: 362ea74ab530befb4201e0d447d7a19174edb8d3
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 2a2c6326002a2df6099cb3cadf145f338ad3e137
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-06-18T09:30:17Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -287,7 +287,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 1d97c3ab-b9f3-11e9-ae13-54e1ad07d68a
+    name: 94a060fb-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -360,19 +360,19 @@
       serviceAccountName: ci-operator
     refs:
       base_ref: master
-      base_sha: af9ec8fe29f22367f34ba1176cfdbf624fe77cab
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 783e2532831a60e2ea50eb7fea52bcba2ecb6107
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-08-08T15:42:23Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -389,7 +389,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: a4d7cde0-eb8f-11e9-ac83-54ee753e2644
+    name: 94a0575a-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -470,19 +470,19 @@
       serviceAccountName: ci-operator
     refs:
       base_ref: master
-      base_sha: 92aeb56b6799e26148806168e5636cd7f793bee2
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 1303e418a8be200e400667c6ea6e7a549e4a8f6f
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-10-10T18:56:18Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -500,7 +500,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 9bdfbae2-405b-11e9-ac33-74d435fb2dc0
+    name: 94a058c2-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -584,19 +584,19 @@
           secretName: sentry-dsn
     refs:
       base_ref: master
-      base_sha: 328cef7c6235073b55754d503b98c9233eaa9955
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 2a4d89d759b611ad3f423378c7d78f3af15d78e2
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-03-06T22:03:01Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -613,12 +613,12 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: aa2b50c7-4b4e-11e9-b014-e86a6403f52c
+    name: 94a05bf7-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
     cluster: default
-    context: ci/rehearse/openshift/origin/cluster-profile/test-profile
+    context: ci/rehearse/super/duper/cluster-profile/test-profile
     decoration_config:
       gcs_configuration:
         bucket: origin-ci-test
@@ -636,8 +636,8 @@
         sidecar: gcr.io/k8s-prow/sidecar:v20190129-0a3c54c
     extra_refs:
     - base_ref: cluster-profile
-      org: openshift
-      repo: origin
+      org: super
+      repo: duper
       workdir: true
     job: rehearse-1234-pull-ci-super-duper-cluster-profile-test-profile
     namespace: test-namespace
@@ -655,10 +655,32 @@
         - name: CLUSTER_TYPE
           value: gcp
         - name: CONFIG_SPEC
-          valueFrom:
-            configMapKeyRef:
-              key: super-duper-test-profile.yaml
-              name: ci-operator-configs
+          value: |
+            base_images:
+              base:
+                cluster: https://api.ci.openshift.org
+                name: origin-v4.0
+                namespace: openshift
+                tag: base
+            build_root:
+              image_stream_tag:
+                cluster: https://api.ci.openshift.org
+                name: release
+                namespace: openshift
+                tag: golang-1.10
+            images:
+            - from: base
+              to: test-image
+            resources:
+              '*':
+                limits:
+                  cpu: 500Mi
+                requests:
+                  cpu: 10Mi
+            tag_specification:
+              cluster: https://api.ci.openshift.org
+              name: origin-v4.0
+              namespace: openshift
         - name: JOB_NAME_SAFE
           value: test-profile
         - name: TEST_COMMAND
@@ -689,19 +711,19 @@
         name: job-definition
     refs:
       base_ref: master
-      base_sha: a1e0de27c562d86647c901554094d12d7c358ba8
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 7c0b9788f819121ac637fa3f8a319d0bc2cda73e
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-02-11T17:02:53Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -718,7 +740,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: df02e525-2e1e-11e9-bbf5-8c16455629bd
+    name: 94a05185-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -793,19 +815,19 @@
       serviceAccountName: ci-operator
     refs:
       base_ref: master
-      base_sha: a1e0de27c562d86647c901554094d12d7c358ba8
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 7c0b9788f819121ac637fa3f8a319d0bc2cda73e
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-03-06T22:03:01Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -822,7 +844,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 44acebef-4fc4-11e9-b82b-54e1ad07d68a
+    name: 94a053fa-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -920,19 +942,19 @@
         name: job-definition
     refs:
       base_ref: master
-      base_sha: 7effc9d6d41c9038e853dc54814eaace10f0bbfa
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: bb928f30f5790ce48231cb1b2601a135869da8cc
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-03-06T22:03:01Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -949,7 +971,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: df02e8fc-2e1e-11e9-bbf5-8c16455629bd
+    name: 94a055d3-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -1024,19 +1046,19 @@
       serviceAccountName: ci-operator
     refs:
       base_ref: master
-      base_sha: a1e0de27c562d86647c901554094d12d7c358ba8
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 7c0b9788f819121ac637fa3f8a319d0bc2cda73e
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-02-11T17:02:53Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -1053,7 +1075,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: ab89c04c-4fc2-11e9-96b2-54e1ad07d68a
+    name: 94a05a51-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -1151,19 +1173,19 @@
         name: job-definition
     refs:
       base_ref: master
-      base_sha: bfd4c4d0fe97177b4278dfef1691c7ef8dca1af0
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 4fe34c7d9b223067e30397a98a64bc0915d602e2
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-03-26T12:28:33Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -1180,7 +1202,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: ab89c26f-4fc2-11e9-96b2-54e1ad07d68a
+    name: 94a05de5-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -1278,19 +1300,19 @@
         name: job-definition
     refs:
       base_ref: master
-      base_sha: bfd4c4d0fe97177b4278dfef1691c7ef8dca1af0
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 4fe34c7d9b223067e30397a98a64bc0915d602e2
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-03-26T12:28:33Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -1307,7 +1329,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: df02ea78-2e1e-11e9-bbf5-8c16455629bd
+    name: 94a045bb-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -1566,19 +1588,19 @@
       serviceAccountName: ci-operator
     refs:
       base_ref: master
-      base_sha: a1e0de27c562d86647c901554094d12d7c358ba8
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: bb928f30f5790ce48231cb1b2601a135869da8cc
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-03-06T22:03:01Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -1595,7 +1617,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 44acf399-4fc4-11e9-b82b-54e1ad07d68a
+    name: 94a04884-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -1877,19 +1899,19 @@
         name: job-definition
     refs:
       base_ref: master
-      base_sha: 7effc9d6d41c9038e853dc54814eaace10f0bbfa
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: bb928f30f5790ce48231cb1b2601a135869da8cc
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-02-11T17:02:53Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -1907,7 +1929,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 72fccf67-1b9d-11ea-a5f6-8c1645feb4f4
+    name: 94a04dae-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -2183,19 +2205,19 @@
           secretName: sentry-dsn
     refs:
       base_ref: master
-      base_sha: 9691f0df19066bb68113f19dad0389184279fefe
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: bd54f9c2b25d95fbcde47597e52c6866be831382
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-12-10T22:36:04Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -2213,7 +2235,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 72fcd110-1b9d-11ea-a5f6-8c1645feb4f4
+    name: 94a04f62-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -2489,19 +2511,19 @@
           secretName: sentry-dsn
     refs:
       base_ref: master
-      base_sha: 9691f0df19066bb68113f19dad0389184279fefe
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: bb928f30f5790ce48231cb1b2601a135869da8cc
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-02-11T17:02:53Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -2519,7 +2541,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 72fccbb1-1b9d-11ea-a5f6-8c1645feb4f4
+    name: 94a04a70-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -2795,19 +2817,19 @@
           secretName: sentry-dsn
     refs:
       base_ref: master
-      base_sha: a1e0de27c562d86647c901554094d12d7c358ba8
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 7c0b9788f819121ac637fa3f8a319d0bc2cda73e
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-02-11T17:02:53Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 - apiVersion: prow.k8s.io/v1
   kind: ProwJob
@@ -2825,7 +2847,7 @@
       prow.k8s.io/refs.pull: "1234"
       prow.k8s.io/refs.repo: release
       prow.k8s.io/type: presubmit
-    name: 7216cd7e-4c84-11e9-996c-54e1ad07d68a
+    name: 94a04c3e-6009-11ea-9555-8c1645feb4f4
     namespace: test-namespace
   spec:
     agent: kubernetes
@@ -3091,18 +3113,18 @@
           secretName: sentry-dsn
     refs:
       base_ref: master
-      base_sha: a1e0de27c562d86647c901554094d12d7c358ba8
+      base_sha: 6872f7570f9f7f1a0d7099e8c22378fa0ddc2a6c
       org: openshift
       pulls:
       - author: petr-muller
         number: 1234
-        sha: 7c0b9788f819121ac637fa3f8a319d0bc2cda73e
+        sha: a2fa44e3ae1a015f126a6e3d69eea8b516f50dbb
       repo: release
     report: true
     rerun_auth_config: {}
     rerun_command: /test pj-rehearse
     type: presubmit
   status:
-    startTime: "2019-02-11T17:02:53Z"
+    startTime: "2020-03-07T00:21:25Z"
     state: triggered
 

@@ -1,5 +1,5 @@
 presubmits:
-  openshift/origin:
+  super/duper:
   - agent: kubernetes
     always_run: false
     branches:
