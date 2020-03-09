@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"time"
@@ -191,6 +192,8 @@ func rehearseMain() int {
 		affectedJobs = jobs
 		metrics.RecordChangedCiopConfigs(changedCiopConfigData)
 	}
+	log.Printf("Changed ciop config data: %+v\n", changedCiopConfigData)
+	log.Printf("Affected jobs: %+v\n", affectedJobs)
 
 	var changedRegistrySteps registry.NodeByName
 	var refs registry.ReferenceByName
@@ -313,6 +316,7 @@ func rehearseMain() int {
 	metrics.RecordPresubmitsOpportunity(clusterChangedPresubmits, "changed-cluster")
 
 	presubmitsWithChangedCiopConfigs := diffs.GetPresubmitsForCiopConfigs(prConfig.Prow, changedCiopConfigData, affectedJobs)
+	log.Printf("presubmits: %+v\n", presubmitsWithChangedCiopConfigs)
 	metrics.RecordPresubmitsOpportunity(presubmitsWithChangedCiopConfigs, "ci-operator-config-change")
 	toRehearse.AddAll(presubmitsWithChangedCiopConfigs)
 

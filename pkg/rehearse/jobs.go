@@ -233,7 +233,7 @@ func hasRehearsableLabel(labels map[string]string) bool {
 // of the needed config file passed to the job as a direct value. This needs
 // to happen because the rehearsed Prow jobs may depend on these config files
 // being also changed by the tested PR.
-func inlineCiOpConfig(container v1.Container, ciopConfigs config.ByFilename, resolver registry.Resolver, info config.Info, loggers Loggers) error {
+func inlineCiOpConfig(container *v1.Container, ciopConfigs config.ByFilename, resolver registry.Resolver, info config.Info, loggers Loggers) error {
 	configSpecSet := false
 	// replace all ConfigMapKeyRef mounts with inline config maps
 	for index := range container.Env {
@@ -411,7 +411,7 @@ func (jc *JobConfigurer) ConfigurePresubmitRehearsals(presubmits config.Presubmi
 }
 
 func (jc *JobConfigurer) configureJobSpec(spec *v1.PodSpec, info config.Info, logger *logrus.Entry) error {
-	if err := inlineCiOpConfig(spec.Containers[0], jc.ciopConfigs, jc.registryResolver, info, jc.loggers); err != nil {
+	if err := inlineCiOpConfig(&spec.Containers[0], jc.ciopConfigs, jc.registryResolver, info, jc.loggers); err != nil {
 		return err
 	}
 	// Remove configresolver flags from ci-operator jobs
