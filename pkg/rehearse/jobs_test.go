@@ -42,6 +42,8 @@ import (
 
 const testingRegistry = "../../test/multistage-registry/registry"
 
+const testingCiOpCfgYAML = "tests:\n- as: job1\n  commands: \"\"\n- as: job2\n  commands: \"\"\n"
+
 // configFiles contains the info needed to allow inlineCiOpConfig to successfully inline
 // CONFIG_SPEC and not fail
 func generateTestConfigFiles() config.ByFilename {
@@ -273,7 +275,7 @@ func TestInlineCiopConfig(t *testing.T) {
 			job := makeTestingPresubmitForEnv(tc.sourceEnv)
 			expectedJob := makeTestingPresubmitForEnv(tc.expectedEnv)
 
-			err := inlineCiOpConfig(job.Spec.Containers[0], tc.configs, resolver, testCiopConfigInfo, testLoggers)
+			err := inlineCiOpConfig(&job.Spec.Containers[0], tc.configs, resolver, testCiopConfigInfo, testLoggers)
 
 			if tc.expectedError && err == nil {
 				t.Errorf("Expected inlineCiopConfig() to return an error, none returned")
@@ -424,6 +426,8 @@ func makeTestingProwJob(namespace, jobName, context string, refs *pjapi.Refs, or
 			PodSpec: &v1.PodSpec{
 				Containers: []v1.Container{{
 					Command: []string{"ci-operator"},
+					Args:    []string{},
+					Env:     []v1.EnvVar{{Name: "CONFIG_SPEC", Value: testingCiOpCfgYAML}},
 				}},
 			},
 		},

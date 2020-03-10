@@ -207,7 +207,7 @@ func GetImagesPostsubmitsForCiopConfigs(prowConfig *prowconfig.Config, ciopConfi
 	var ret []PostsubmitInContext
 
 	for _, data := range ciopConfigs {
-		jobNamePrefix := data.Info.JobName(jobconfig.PresubmitPrefix, "")
+		jobNamePrefix := data.Info.JobName(jobconfig.PostsubmitPrefix, "")
 		for _, job := range prowConfig.JobConfig.PostsubmitsStatic[fmt.Sprintf("%s/%s", data.Info.Org, data.Info.Repo)] {
 			if job.Agent != string(pjapi.KubernetesAgent) {
 				continue
@@ -244,7 +244,7 @@ func GetPresubmitsForCiopConfigs(prowConfig *prowconfig.Config, ciopConfigs conf
 			}
 			testName := strings.TrimPrefix(job.Name, jobNamePrefix)
 
-			affectedJob, ok := affectedJobs[data.Info.Filename]
+			affectedJob, ok := affectedJobs[data.Info.Basename()]
 			if ok && !affectedJob.Has(testName) {
 				continue
 			}

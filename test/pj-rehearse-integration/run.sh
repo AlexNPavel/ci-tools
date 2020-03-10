@@ -9,8 +9,7 @@ set -o nounset
 set -o pipefail
 
 WORKDIR="$( mktemp -d )"
-#trap 'rm -rf "${WORKDIR}"' EXIT
-trap 'echo "${WORKDIR}"' EXIT
+trap 'rm -rf "${WORKDIR}"' EXIT
 
 TEST_ROOT="$( dirname "${BASH_SOURCE[0]}")"
 readonly FAKE_OPENSHIFT_RELEASE="${WORKDIR}/repo"
