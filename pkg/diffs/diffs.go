@@ -2,9 +2,8 @@ package diffs
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/getlantern/deepcopy"
+	"strings"
 
 	"github.com/sirupsen/logrus"
 
@@ -16,7 +15,6 @@ import (
 	prowconfig "k8s.io/test-infra/prow/config"
 
 	cioperatorapi "github.com/openshift/ci-tools/pkg/api"
-	"github.com/openshift/ci-tools/pkg/jobconfig"
 
 	"github.com/openshift/ci-tools/pkg/config"
 )
@@ -206,16 +204,14 @@ type PostsubmitInContext struct {
 func GetImagesPostsubmitsForCiopConfigs(prowConfig *prowconfig.Config, ciopConfigs config.ByFilename) []PostsubmitInContext {
 	var ret []PostsubmitInContext
 
-	for _, data := range ciopConfigs {
-		jobNamePrefix := data.Info.JobName(jobconfig.PostsubmitPrefix, "")
+	for filename, data := range ciopConfigs {
 		for _, job := range prowConfig.JobConfig.PostsubmitsStatic[fmt.Sprintf("%s/%s", data.Info.Org, data.Info.Repo)] {
-			if job.Agent != string(pjapi.KubernetesAgent) {
+			key, ok := ciOpFileName(job.JobBase)
+			if !ok || key != filename {
 				continue
 			}
-			if !strings.HasPrefix(job.Name, jobNamePrefix) {
-				continue
-			}
-			testName := strings.TrimPrefix(job.Name, jobNamePrefix)
+			testName := strings.TrimPrefix(job.Name, "branch-ci-")
+			testName = strings.TrimPrefix(testName, fmt.Sprintf("%s-%s-%s-", data.Info.Org, data.Info.Repo, data.Info.Branch))
 
 			if testName == "images" {
 				ret = append(ret, PostsubmitInContext{
@@ -232,19 +228,17 @@ func GetImagesPostsubmitsForCiopConfigs(prowConfig *prowconfig.Config, ciopConfi
 func GetPresubmitsForCiopConfigs(prowConfig *prowconfig.Config, ciopConfigs config.ByFilename, affectedJobs map[string]sets.String) config.Presubmits {
 	ret := config.Presubmits{}
 
-	for _, data := range ciopConfigs {
+	for filename, data := range ciopConfigs {
 		orgRepo := fmt.Sprintf("%s/%s", data.Info.Org, data.Info.Repo)
-		jobNamePrefix := data.Info.JobName(jobconfig.PresubmitPrefix, "")
 		for _, job := range prowConfig.JobConfig.PresubmitsStatic[orgRepo] {
-			if job.Agent != string(pjapi.KubernetesAgent) {
+			key, ok := ciOpFileName(job.JobBase)
+			if !ok || key != filename {
 				continue
 			}
-			if !strings.HasPrefix(job.Name, jobNamePrefix) {
-				continue
-			}
-			testName := strings.TrimPrefix(job.Name, jobNamePrefix)
+			testName := strings.TrimPrefix(job.Name, "pull-ci-")
+			testName = strings.TrimPrefix(testName, fmt.Sprintf("%s-%s-%s-", data.Info.Org, data.Info.Repo, data.Info.Branch))
 
-			affectedJob, ok := affectedJobs[data.Info.Basename()]
+			affectedJob, ok := affectedJobs[key]
 			if ok && !affectedJob.Has(testName) {
 				continue
 			}
@@ -254,6 +248,24 @@ func GetPresubmitsForCiopConfigs(prowConfig *prowconfig.Config, ciopConfigs conf
 	}
 
 	return ret
+}
+
+func ciOpFileName(job prowconfig.JobBase) (string, bool) {
+	if job.Agent != string(pjapi.KubernetesAgent) {
+		return "", false
+	}
+	for _, env := range job.Spec.Containers[0].Env {
+		if env.ValueFrom == nil {
+			continue
+		}
+		if env.ValueFrom.ConfigMapKeyRef == nil {
+			continue
+		}
+		if config.IsCiopConfigCM(env.ValueFrom.ConfigMapKeyRef.Name) {
+			return env.ValueFrom.ConfigMapKeyRef.Key, true
+		}
+	}
+	return "", false
 }
 
 func getTestsByName(tests []cioperatorapi.TestStepConfiguration) map[string]cioperatorapi.TestStepConfiguration {
