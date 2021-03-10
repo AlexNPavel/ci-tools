@@ -47,7 +47,7 @@
       - name: REPO_OWNER
         value: org
       - name: ENTRYPOINT_OPTIONS
-        value: '{"timeout":7200000000000,"grace_period":15000000000,"artifact_dir":"/logs/artifacts","args":["/bin/bash","-c","#!/bin/bash\nset -eu\ncommand0"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}'
+        value: '{"timeout":7200000000000,"grace_period":15000000000,"artifact_dir":"/logs/artifacts","args":["/bin/sh","-c","/var/run/configmaps/ci.openshift.io/multi-stage/commands.sh"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}'
       - name: ARTIFACT_DIR
         value: /logs/artifacts
       - name: NAMESPACE
@@ -89,12 +89,14 @@
         name: cluster-profile
       - mountPath: /var/run/secrets/ci.openshift.io/multi-stage
         name: test
+      - mountPath: /var/run/configmaps/ci.openshift.io/multi-stage
+        name: commands-script
     - command:
       - /sidecar
       env:
       - name: JOB_SPEC
       - name: SIDECAR_OPTIONS
-        value: '{"gcs_options":{"items":["/logs/artifacts"],"sub_dir":"artifacts/test/step0","dry_run":false},"entries":[{"args":["/bin/bash","-c","#!/bin/bash\nset -eu\ncommand0"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}],"ignore_interrupts":true,"secret_directories":["/secret"]}'
+        value: '{"gcs_options":{"items":["/logs/artifacts"],"sub_dir":"artifacts/test/step0","dry_run":false},"entries":[{"args":["/bin/sh","-c","/var/run/configmaps/ci.openshift.io/multi-stage/commands.sh"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}],"ignore_interrupts":true,"secret_directories":["/secret"]}'
       image: sidecar
       name: sidecar
       resources: {}
@@ -148,6 +150,10 @@
     - name: test
       secret:
         secretName: test
+    - configMap:
+        defaultMode: 511
+        name: test-step0-command-script
+      name: commands-script
   status: {}
 - metadata:
     annotations:
@@ -198,7 +204,7 @@
       - name: REPO_OWNER
         value: org
       - name: ENTRYPOINT_OPTIONS
-        value: '{"timeout":7200000000000,"grace_period":15000000000,"artifact_dir":"/logs/artifacts","args":["/bin/bash","-c","#!/bin/bash\nset -eu\ncommand1"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}'
+        value: '{"timeout":7200000000000,"grace_period":15000000000,"artifact_dir":"/logs/artifacts","args":["/bin/sh","-c","/var/run/configmaps/ci.openshift.io/multi-stage/commands.sh"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}'
       - name: ARTIFACT_DIR
         value: /logs/artifacts
       - name: NAMESPACE
@@ -240,12 +246,14 @@
         name: cluster-profile
       - mountPath: /var/run/secrets/ci.openshift.io/multi-stage
         name: test
+      - mountPath: /var/run/configmaps/ci.openshift.io/multi-stage
+        name: commands-script
     - command:
       - /sidecar
       env:
       - name: JOB_SPEC
       - name: SIDECAR_OPTIONS
-        value: '{"gcs_options":{"items":["/logs/artifacts"],"sub_dir":"artifacts/test/step1","dry_run":false},"entries":[{"args":["/bin/bash","-c","#!/bin/bash\nset -eu\ncommand1"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}],"ignore_interrupts":true,"secret_directories":["/secret"]}'
+        value: '{"gcs_options":{"items":["/logs/artifacts"],"sub_dir":"artifacts/test/step1","dry_run":false},"entries":[{"args":["/bin/sh","-c","/var/run/configmaps/ci.openshift.io/multi-stage/commands.sh"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}],"ignore_interrupts":true,"secret_directories":["/secret"]}'
       image: sidecar
       name: sidecar
       resources: {}
@@ -299,6 +307,10 @@
     - name: test
       secret:
         secretName: test
+    - configMap:
+        defaultMode: 511
+        name: test-step1-command-script
+      name: commands-script
   status: {}
 - metadata:
     annotations:
@@ -349,7 +361,7 @@
       - name: REPO_OWNER
         value: org
       - name: ENTRYPOINT_OPTIONS
-        value: '{"timeout":7200000000000,"grace_period":15000000000,"artifact_dir":"/logs/artifacts","args":["/bin/bash","-c","#!/bin/bash\nset -eu\ncommand2"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}'
+        value: '{"timeout":7200000000000,"grace_period":15000000000,"artifact_dir":"/logs/artifacts","args":["/bin/sh","-c","/var/run/configmaps/ci.openshift.io/multi-stage/commands.sh"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}'
       - name: ARTIFACT_DIR
         value: /logs/artifacts
       - name: NAMESPACE
@@ -391,12 +403,14 @@
         name: cluster-profile
       - mountPath: /var/run/secrets/ci.openshift.io/multi-stage
         name: test
+      - mountPath: /var/run/configmaps/ci.openshift.io/multi-stage
+        name: commands-script
     - command:
       - /sidecar
       env:
       - name: JOB_SPEC
       - name: SIDECAR_OPTIONS
-        value: '{"gcs_options":{"items":["/logs/artifacts"],"sub_dir":"artifacts/test/step2","dry_run":false},"entries":[{"args":["/bin/bash","-c","#!/bin/bash\nset -eu\ncommand2"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}],"ignore_interrupts":true,"secret_directories":["/secret"]}'
+        value: '{"gcs_options":{"items":["/logs/artifacts"],"sub_dir":"artifacts/test/step2","dry_run":false},"entries":[{"args":["/bin/sh","-c","/var/run/configmaps/ci.openshift.io/multi-stage/commands.sh"],"container_name":"test","process_log":"/logs/process-log.txt","marker_file":"/logs/marker-file.txt","metadata_file":"/logs/artifacts/metadata.json"}],"ignore_interrupts":true,"secret_directories":["/secret"]}'
       image: sidecar
       name: sidecar
       resources: {}
@@ -450,4 +464,8 @@
     - name: test
       secret:
         secretName: test
+    - configMap:
+        defaultMode: 511
+        name: test-step2-command-script
+      name: commands-script
   status: {}

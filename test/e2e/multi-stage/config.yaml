@@ -3,6 +3,10 @@ base_images:
     name: centos
     namespace: openshift
     tag: '7'
+  alpine:
+    name: alpine
+    namespace: ci
+    tag: '3.10'
 resources:
   '*':
     limits:
@@ -15,7 +19,7 @@ tests:
       test:
         - as: produce-content
           commands: echo -n "message" > ${SHARED_DIR}/file
-          from: os
+          from: alpine
           resources:
             requests:
               cpu: 100m
