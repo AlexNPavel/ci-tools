@@ -38,6 +38,25 @@ tag_specification:
   name: "4.6"
 # need a test or image field to be valid ci-operator config
 tests:
+- as: verify-db
+  steps:
+    test:
+    - as: verify
+      from: ci-index-named-bundle
+      commands: |
+        #!/bin/sh
+        set -o nounset
+        set -o errexit
+        set -o pipefail
+        opm registry serve --database /database/index.db &
+        wget -O - https://github.com/fullstorydev/grpcurl/releases/download/v1.8.0/grpcurl_1.8.0_linux_x86_64.tar.gz | tar xz grpcurl
+        # grpcurl exits with 66 on bundle not found; try to get one bundle from base index and the bundle built by ci-operator
+        grpcurl -plaintext -d '{"pkgName":"kubevirt-hyperconverged","channelName":"stable","csvName":"kubevirt-hyperconverged-operator.v2.5.2"}' localhost:50051 api.Registry/GetBundle
+        grpcurl -plaintext -d '{"pkgName":"metering-ocp","channelName":"test-channel","csvName":"metering-operator.v4.6.0"}' localhost:50051 api.Registry/GetBundle
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
 - as: success
   commands: exit 0
   container:
