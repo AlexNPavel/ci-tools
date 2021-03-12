@@ -39,10 +39,10 @@ tag_specification:
 # need a test or image field to be valid ci-operator config
 tests:
 - as: verify-db
-  steps:
+  literal_steps:
     test:
     - as: verify
-      from: ci-index-named-bundle
+      from: pipeline:ci-index-named-bundle
       commands: |
         #!/bin/sh
         set -o nounset
