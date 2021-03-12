@@ -450,6 +450,9 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                    # These are directly used in creating the Pods that execute the Job.\n" +
 	"                    requests:\n" +
 	"                        \"\": \"\"\n" +
+	"                  # RunAsScript defines if this step should be executed as a script mounted\n" +
+	"                  # in the test container instead of being executed directly via bash\n" +
+	"                  run_as_script: false\n" +
 	"                  # Timeout is how long the we will wait before aborting a job with SIGINT.\n" +
 	"                  timeout: 0s\n" +
 	"            # Pre is the array of test steps run to set up the environment for the test.\n" +
@@ -525,6 +528,9 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                    # These are directly used in creating the Pods that execute the Job.\n" +
 	"                    requests:\n" +
 	"                        \"\": \"\"\n" +
+	"                  # RunAsScript defines if this step should be executed as a script mounted\n" +
+	"                  # in the test container instead of being executed directly via bash\n" +
+	"                  run_as_script: false\n" +
 	"                  # Timeout is how long the we will wait before aborting a job with SIGINT.\n" +
 	"                  timeout: 0s\n" +
 	"            # Test is the array of test steps that define the actual test.\n" +
@@ -600,6 +606,9 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                    # These are directly used in creating the Pods that execute the Job.\n" +
 	"                    requests:\n" +
 	"                        \"\": \"\"\n" +
+	"                  # RunAsScript defines if this step should be executed as a script mounted\n" +
+	"                  # in the test container instead of being executed directly via bash\n" +
+	"                  run_as_script: false\n" +
 	"                  # Timeout is how long the we will wait before aborting a job with SIGINT.\n" +
 	"                  timeout: 0s\n" +
 	"        openshift_ansible:\n" +
@@ -724,6 +733,7 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                    requests:\n" +
 	"                        # LiteralTestStep is a full test step definition.\n" +
 	"                        \"\": \"\"\n" +
+	"                  run_as_script: false\n" +
 	"                  timeout: 0s\n" +
 	"            # Pre is the array of test steps run to set up the environment for the test.\n" +
 	"            pre:\n" +
@@ -777,6 +787,7 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                    requests:\n" +
 	"                        # LiteralTestStep is a full test step definition.\n" +
 	"                        \"\": \"\"\n" +
+	"                  run_as_script: false\n" +
 	"                  timeout: 0s\n" +
 	"            # Test is the array of test steps that define the actual test.\n" +
 	"            test:\n" +
@@ -830,6 +841,7 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                    requests:\n" +
 	"                        # LiteralTestStep is a full test step definition.\n" +
 	"                        \"\": \"\"\n" +
+	"                  run_as_script: false\n" +
 	"                  timeout: 0s\n" +
 	"            # Workflow is the name of the workflow to be used for this configuration. For fields defined in both\n" +
 	"            # the config and the workflow, the fields from the config will override what is set in Workflow.\n" +
@@ -1045,6 +1057,9 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                # These are directly used in creating the Pods that execute the Job.\n" +
 	"                requests:\n" +
 	"                    \"\": \"\"\n" +
+	"              # RunAsScript defines if this step should be executed as a script mounted\n" +
+	"              # in the test container instead of being executed directly via bash\n" +
+	"              run_as_script: false\n" +
 	"              # Timeout is how long the we will wait before aborting a job with SIGINT.\n" +
 	"              timeout: 0s\n" +
 	"        # Pre is the array of test steps run to set up the environment for the test.\n" +
@@ -1120,6 +1135,9 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                # These are directly used in creating the Pods that execute the Job.\n" +
 	"                requests:\n" +
 	"                    \"\": \"\"\n" +
+	"              # RunAsScript defines if this step should be executed as a script mounted\n" +
+	"              # in the test container instead of being executed directly via bash\n" +
+	"              run_as_script: false\n" +
 	"              # Timeout is how long the we will wait before aborting a job with SIGINT.\n" +
 	"              timeout: 0s\n" +
 	"        # Test is the array of test steps that define the actual test.\n" +
@@ -1195,6 +1213,9 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                # These are directly used in creating the Pods that execute the Job.\n" +
 	"                requests:\n" +
 	"                    \"\": \"\"\n" +
+	"              # RunAsScript defines if this step should be executed as a script mounted\n" +
+	"              # in the test container instead of being executed directly via bash\n" +
+	"              run_as_script: false\n" +
 	"              # Timeout is how long the we will wait before aborting a job with SIGINT.\n" +
 	"              timeout: 0s\n" +
 	"      openshift_ansible:\n" +
@@ -1319,6 +1340,7 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                requests:\n" +
 	"                    # LiteralTestStep is a full test step definition.\n" +
 	"                    \"\": \"\"\n" +
+	"              run_as_script: false\n" +
 	"              timeout: 0s\n" +
 	"        # Pre is the array of test steps run to set up the environment for the test.\n" +
 	"        pre:\n" +
@@ -1372,6 +1394,7 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                requests:\n" +
 	"                    # LiteralTestStep is a full test step definition.\n" +
 	"                    \"\": \"\"\n" +
+	"              run_as_script: false\n" +
 	"              timeout: 0s\n" +
 	"        # Test is the array of test steps that define the actual test.\n" +
 	"        test:\n" +
@@ -1425,6 +1448,7 @@ const ciOperatorReferenceYaml = "# The list of base images describe\n" +
 	"                requests:\n" +
 	"                    # LiteralTestStep is a full test step definition.\n" +
 	"                    \"\": \"\"\n" +
+	"              run_as_script: false\n" +
 	"              timeout: 0s\n" +
 	"        # Workflow is the name of the workflow to be used for this configuration. For fields defined in both\n" +
 	"        # the config and the workflow, the fields from the config will override what is set in Workflow.\n" +

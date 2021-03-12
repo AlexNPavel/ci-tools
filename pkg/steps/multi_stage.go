@@ -45,14 +45,16 @@ const (
 	CliMountPath = "/cli"
 	// CliEnv if the env we use to expose the path to the cli
 	CliEnv = "CLI_DIR"
-	// CommandScriptFilename is the filename for the command script
-	CommandScriptFilename = "commands.sh"
+	// CommandPrefix is the prefix we add to a user's commands
+	CommandPrefix = "#!/bin/bash\nset -eu\n"
 	// CommandScriptMountPath is where we mount the command script
 	CommandScriptMountPath = "/var/run/configmaps/ci.openshift.io/multi-stage"
 )
 
 // CommandExec is the command we give to /bin/sh to execute the user's commands script
-var CommandExec = fmt.Sprintf("%s/%s", CommandScriptMountPath, CommandScriptFilename)
+func CommandExec(stepName string) string {
+	return fmt.Sprintf("%s/%s", CommandScriptMountPath, stepName)
+}
 
 var envForProfile = []string{
 	utils.ReleaseImageEnv(api.LatestReleaseName),
@@ -139,7 +141,7 @@ func (s *multiStageTestStep) run(ctx context.Context) error {
 		return fmt.Errorf("failed to create credentials: %w", err)
 	}
 	if err := s.createCommandConfigMaps(); err != nil {
-		return fmt.Errorf("failed to create command configmaps: %w", err)
+		return fmt.Errorf("failed to create command configmap: %w", err)
 	}
 	if err := s.setupRBAC(ctx); err != nil {
 		return fmt.Errorf("failed to create RBAC objects: %w", err)
@@ -343,34 +345,31 @@ func (s *multiStageTestStep) createCredentials() error {
 }
 
 func (s *multiStageTestStep) createCommandConfigMaps() error {
-	log.Printf("Creating multi-stage test command configmaps for %q", s.name)
-	toCreate := map[string]*coreapi.ConfigMap{}
+	log.Printf("Creating multi-stage test commands configmap for %q", s.name)
+	data := make(map[string]string)
 	for _, step := range append(s.pre, append(s.test, s.post...)...) {
-		name := commandConfigMapForStep(s.name, step.As)
-		toCreate[name] = &coreapi.ConfigMap{
-			ObjectMeta: meta.ObjectMeta{
-				Name:      name,
-				Namespace: s.jobSpec.Namespace(),
-			},
-			Data: map[string]string{
-				CommandScriptFilename: step.Commands,
-			},
-		}
+		data[step.As] = step.Commands
 	}
-	for name := range toCreate {
-		// delete old command configmaps if they exist
-		if err := s.client.Delete(context.TODO(), toCreate[name]); err != nil && !kerrors.IsNotFound(err) {
-			return fmt.Errorf("could not delete command configmap %s: %w", toCreate[name].Name, err)
-		}
-		if err := s.client.Create(context.TODO(), toCreate[name]); err != nil {
-			return fmt.Errorf("could not create command configmap: %w", err)
-		}
+	name := commandConfigMapForTest(s.name)
+	commands := &coreapi.ConfigMap{
+		ObjectMeta: meta.ObjectMeta{
+			Name:      name,
+			Namespace: s.jobSpec.Namespace(),
+		},
+		Data: data,
+	}
+	// delete old command configmap if it exists
+	if err := s.client.Delete(context.TODO(), commands); err != nil && !kerrors.IsNotFound(err) {
+		return fmt.Errorf("could not delete command configmap %s: %w", name, err)
+	}
+	if err := s.client.Create(context.TODO(), commands); err != nil {
+		return fmt.Errorf("could not create command configmap %s: %w", name, err)
 	}
 	return nil
 }
 
-func commandConfigMapForStep(testName, stepName string) string {
-	return fmt.Sprintf("%s-%s-command-script", testName, stepName)
+func commandConfigMapForTest(testName string) string {
+	return fmt.Sprintf("%s-commands", testName)
 }
 
 func (s *multiStageTestStep) runSteps(
@@ -459,7 +458,12 @@ func (s *multiStageTestStep) generatePods(steps []api.LiteralTestStep, env []cor
 		// the grace period for the Pod to be just larger than the grace period
 		// for the process, assuming an 80/20 distribution of work.
 		terminationGracePeriodSeconds := p(int64(gracePeriod.Seconds() * 5 / 4))
-		pod, err := generateBasePod(s.jobSpec, name, multiStageTestStepContainerName, []string{"/bin/sh", "-c", CommandExec}, image, resources, artifactDir, s.jobSpec.DecorationConfig, s.jobSpec.RawSpec(), secretVolumeMounts)
+		var pod *coreapi.Pod
+		if step.RunAsScript != nil && *step.RunAsScript {
+			pod, err = generateBasePod(s.jobSpec, name, multiStageTestStepContainerName, []string{"/bin/sh", "-c", CommandExec(step.As)}, image, resources, artifactDir, s.jobSpec.DecorationConfig, s.jobSpec.RawSpec(), secretVolumeMounts)
+		} else {
+			pod, err = generateBasePod(s.jobSpec, name, multiStageTestStepContainerName, []string{"/bin/bash", "-c", CommandPrefix + step.Commands}, image, resources, artifactDir, s.jobSpec.DecorationConfig, s.jobSpec.RawSpec(), secretVolumeMounts)
+		}
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -508,7 +512,9 @@ func (s *multiStageTestStep) generatePods(steps []api.LiteralTestStep, env []cor
 		}
 		addSharedDirSecret(s.name, pod)
 		addCredentials(step.Credentials, pod)
-		addCommandScript(commandConfigMapForStep(s.name, step.As), pod)
+		if step.RunAsScript != nil && *step.RunAsScript {
+			addCommandScript(commandConfigMapForTest(s.name), pod)
+		}
 		ret = append(ret, *pod)
 	}
 	return ret, isBestEffort, utilerrors.NewAggregate(errs)
@@ -684,8 +690,10 @@ func addCommandScript(name string, pod *coreapi.Pod) {
 func injectPath(initial []string) []string {
 	var args []string
 	for _, arg := range initial {
-		if arg == CommandExec {
-			args = append(args, fmt.Sprintf("%s;%s", `export PATH="${PATH}:${CLI_DIR}"`, CommandExec))
+		if strings.HasPrefix(arg, CommandPrefix) {
+			args = append(args, fmt.Sprintf("%s%s\n%s", CommandPrefix, `export PATH="${PATH}:${CLI_DIR}"`, strings.TrimPrefix(arg, CommandPrefix)))
+		} else if strings.HasPrefix(arg, CommandScriptMountPath) {
+			args = append(args, fmt.Sprintf("%s;%s", `export PATH="${PATH}:${CLI_DIR}"`, arg))
 		} else {
 			args = append(args, arg)
 		}

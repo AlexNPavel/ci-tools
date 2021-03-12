@@ -20,6 +20,7 @@ tests:
         - as: produce-content
           commands: echo -n "message" > ${SHARED_DIR}/file
           from: alpine
+          run_as_script: true
           resources:
             requests:
               cpu: 100m
